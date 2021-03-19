@@ -9,14 +9,14 @@ DEBUG_IMAGE := localhost/debugimg:$(VERSION)-$(shell echo $(GOLANG_IMAGE) | tr :
 create-baseimg-debugimg: create-baseimg create-debugimg
 
 create-baseimg:
-	docker buildx build -t $(BASE_IMAGE) \
+	docker buildx build -t $(BASE_IMAGE) --push \
 		--build-arg root_image=$(ROOT_IMAGE) \
 		--build-arg cert_image=$(CERT_IMAGE) \
 		--platform=linux/arm64,linux/amd64,linux/s390x \
 		docker/base
 
 create-debugimg:
-	docker buildx build -t $(DEBUG_IMAGE) \
+	docker buildx build -t $(DEBUG_IMAGE) --push \
 		--build-arg golang_image=$(GOLANG_IMAGE) \
 		--platform=linux/arm64,linux/amd64,linux/s390x \
 		docker/debug
