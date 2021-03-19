@@ -52,7 +52,4 @@ jobs:
         username: kunluibm
         password: cc6d5ad8-6b6c-4ec3-8569-0942a007b916
     - name: "build the image"
-      run: docker buildx build --push --progress=plain \
-            --platform=linux/arm64,linux/amd64,linux/s390x \
-            --file cmd/all-in-one/Dockerfile \
-            --tag kunluibm/jaegertest:latest cmd/all-in-one
+      run: docker buildx build --push --progress=plain --platform=linux/arm64,linux/amd64,linux/s390x --file cmd/all-in-one/Dockerfile --tag kunluibm/jaegertest:latest cmd/all-in-one
