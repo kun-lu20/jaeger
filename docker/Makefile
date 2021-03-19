@@ -3,7 +3,7 @@ ROOT_IMAGE ?= alpine:3.12
 CERT_IMAGE := alpine:3.12
 GOLANG_IMAGE := golang:1.15-alpine
 
-BASE_IMAGE := localhost/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
+BASE_IMAGE := localhost:5000/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
 DEBUG_IMAGE := localhost/debugimg:$(VERSION)-$(shell echo $(GOLANG_IMAGE) | tr : -)
 
 create-baseimg-debugimg: create-baseimg create-debugimg
