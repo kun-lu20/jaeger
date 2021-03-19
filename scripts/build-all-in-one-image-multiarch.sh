@@ -2,7 +2,7 @@
 
 set -exu
 
-make create-baseimg-debugimg
+make create-baseimg
 repo=kunluibm/jaegertest
 
 docker buildx build --push --progress=plain \
