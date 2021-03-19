@@ -33,5 +33,7 @@ jobs:
       run: make install-ci
 
     - name: Build docker images
-      run: GOARCH=<s390x> make docker
+      env: 
+        GOARCH: s390x
+      run: make docker
 
