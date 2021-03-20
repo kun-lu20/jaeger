@@ -41,8 +41,7 @@ jobs:
     - name: Build All-in-one
       run: make ${{ matrix.platform.task }}
     
-    - name: Upload artifacts
-      use: actions/upload-artifact@v2
+    - use: actions/upload-artifact@v2
       with: 
         name: all-in-one-linux
         path: ./cmd/all-in-one/all-in-one-linux-*
