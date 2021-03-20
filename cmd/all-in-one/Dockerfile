@@ -33,7 +33,7 @@ ENTRYPOINT ["/go/bin/all-in-one-linux"]
 CMD ["--sampling.strategies-file=/etc/jaeger/sampling_strategies.json"]
 
 FROM $debug_image AS debug
-ARG TARGETARCH
+ARG TARGETARCH=amd64
 
 # Agent zipkin.thrift compact
 EXPOSE 5775/udp
