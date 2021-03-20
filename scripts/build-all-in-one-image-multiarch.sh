@@ -11,4 +11,4 @@ docker buildx build --push \
     --build-arg debug_image=golang:1.15-alpine \
     --platform=linux/arm64,linux/amd64,linux/s390x \
     --file cmd/all-in-one/Dockerfile \
-    --tag $repo/all-in-one:latest cmd/all-in-one
+    --tag $repo:latest cmd/all-in-one
