@@ -359,7 +359,7 @@ create-baseimage-multiarch:
 		--build-arg root_image=$(ROOT_IMAGE) \
 		--build-arg cert_image=$(CERT_IMAGE) \
 		--platform=$(PLATFORMS) \
-		docker/base \
+		docker/base
 	echo "Finished building multiarch base image =============="
 
 .PHONY: docker-images-jaeger-backend-multiarch
