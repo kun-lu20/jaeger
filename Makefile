@@ -368,6 +368,7 @@ docker-images-jaeger-backend-multiarch: create-baseimage-multiarch
 		docker buildx build --push \
     		--progress=plain --target release \
     		--build-arg base_image=$(BASE_IMAGE_MULTIARCH) \
+			--build-arg debug_image=$(GOLANG_IMAGE) \
     		--platform=$(PLATFORMS) \
     		--file cmd/$$component/Dockerfile \
     		--tag $(repo_multiarch_prefix)$$component$(SUFFIX):${DOCKER_TAG} \

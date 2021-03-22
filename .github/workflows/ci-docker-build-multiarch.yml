@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  docker-images:
+  multiarch-docker-images:
     runs-on: ubuntu-latest
     
     services:
@@ -54,5 +54,5 @@ jobs:
         username: kunlu20
         password: 4f850c08-489a-4b71-9deb-eb75138258ad
   
-    - name: Build multidock docker images
+    - name: Build multiarch docker images
       run: make docker-images-jaeger-backend-multiarch
