@@ -1,6 +1,6 @@
 FROM cassandra:3.11 AS base-amd64
 
-FROM cassandra:3.11 AS base-arm64
+FROM cassandra:4.0 AS base-arm64
 
 FROM cassandra:3.11 AS base-ppc64le
 
