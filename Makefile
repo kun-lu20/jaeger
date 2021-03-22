@@ -303,7 +303,8 @@ build-platform-binaries: build-agent \
 	build-all-in-one \
 	build-examples \
 	build-tracegen \
-	build-anonymizer
+	build-anonymizer \
+	build-esmapping-generator
 
 .PHONY: build-all-platforms
 build-all-platforms: build-binaries-linux build-binaries-windows build-binaries-darwin build-binaries-s390x build-binaries-arm64 build-binaries-ppc64le
@@ -353,6 +354,13 @@ docker-images-only: docker-images-cassandra \
 	docker-images-tracegen \
 	docker-images-anonymizer
 
+.PHONY: multiarch-docker-images-only
+multiarch-docker-images-only: docker-images-jaeger-backend-multiarch \
+	docker-images-cassandra-multiarch \
+	docker-images-elastic-multiarch \
+	docker-images-tracegen-multiarch \
+	docker-images-anonymizer-multiarch
+
 .PHONY: create-baseimage-multiarch
 create-baseimage-multiarch:
 	docker buildx build -t $(BASE_IMAGE_MULTIARCH) --push \
@@ -381,9 +389,42 @@ docker-images-cassandra-multiarch:
 	docker buildx build --push \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
-		--tag $(DOCKER_NAMESPACE)/jaeger-cassandra-schema:${DOCKER_TAG} \
+		--tag $(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
 		plugin/storage/cassandra/
-	echo "Finished building jaeger-cassandra-schema =============="
+	echo "Finished building multiarch jaeger-cassandra-schema =============="
+
+.PHONY: docker-images-elastic-multiarch
+docker-images-elastic-multiarch:
+	docker buildx build --push \
+		--progress=plain \
+		--platform=$(PLATFORMS) \
+		--tag $(repo_multiarch_prefix)es-index-cleaner:${DOCKER_TAG} \
+		plugin/storage/es
+	docker buildx build --push \
+		--progress=plain \
+		--platform=$(PLATFORMS) \
+		--tag $(repo_multiarch_prefix)es-rollover:${DOCKER_TAG} \
+		--file=plugin/storage/es/Dockerfile.rollover
+		plugin/storage/es
+	@echo "Finished building multiarch jaeger-es-indices-clean =============="
+
+.PHONY: docker-images-tracegen-multiarch
+docker-images-tracegen-multiarch:
+	docker buildx build --push \
+    	--progress=plain \
+    	--platform=$(PLATFORMS) \
+    	--tag $(repo_multiarch_prefix)$$tracegen:${DOCKER_TAG} \
+		cmd/tracegen/
+	@echo "Finished building multiarch jaeger-tracegen =============="
+
+.PHONY: docker-images-anonymizer-multiarch
+docker-images-anonymizer-multiarch:
+	docker buildx build --push \
+    	--progress=plain \
+    	--platform=$(PLATFORMS) \
+    	--tag $(repo_multiarch_prefix)$$anonymizer:${DOCKER_TAG} \
+		cmd/anonymizer/
+	@echo "Finished building multiarch jaeger-anonymizer =============="
 
 .PHONY: docker-push
 docker-push:
