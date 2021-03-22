@@ -1,14 +1,14 @@
-ARG TARGETARCH=amd64
+ARG TARGETARCH
 
-FROM cassandra:3.11 AS base_amd64
+FROM cassandra:3.11 AS base-amd64
 
-FROM cassandra:3.11 AS base_arm64
+FROM cassandra:3.11 AS base-arm64
 
-FROM cassandra:3.11 AS base_ppc64le
+FROM cassandra:3.11 AS base-ppc64le
 
-FROM ibmcom/apachecassandra-s390x:3.11.3 AS base_s390x
+FROM ibmcom/apachecassandra-s390x:3.11.3 AS base-s390x
 
-FROM base_${TARGETARCH} AS final
+FROM base-${TARGETARCH} AS final
 
 COPY schema/* /cassandra-schema/
 
