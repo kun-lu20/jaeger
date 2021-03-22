@@ -72,6 +72,11 @@ MOCKERY=mockery
 
 .DEFAULT_GOAL := test-and-lint
 
+
+BASE_IMAGE_MULTIARCH := localhost:5005/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
+PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
+repo_multiarch_prefix=kunlu20/jaeger-
+
 .PHONY: test-and-lint
 test-and-lint: test fmt lint
 
@@ -348,10 +353,6 @@ docker-images-only: docker-images-cassandra \
 	docker-images-tracegen \
 	docker-images-anonymizer
 
-BASE_IMAGE_MULTIARCH := localhost:5005/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
-
-PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
-
 .PHONY: create-baseimage-multiarch
 create-baseimage-multiarch:
 docker buildx build -t $(BASE_IMAGE_MULTIARCH) --push \
@@ -360,8 +361,6 @@ docker buildx build -t $(BASE_IMAGE_MULTIARCH) --push \
 		--platform=$(PLATFORMS) \
 		docker/base \
 echo "Finished building multiarch base image =============="
-
-repo_multiarch_prefix=kunlu20/jaeger-
 
 .PHONY: docker-images-jaeger-backend-multiarch
 docker-images-jaeger-backend-multiarch: create-baseimg-multiarch
