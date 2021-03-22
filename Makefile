@@ -413,7 +413,7 @@ docker-images-tracegen-multiarch:
 	docker buildx build --push \
     	--progress=plain \
     	--platform=$(PLATFORMS) \
-    	--tag $(repo_multiarch_prefix)$$tracegen:${DOCKER_TAG} \
+    	--tag $(repo_multiarch_prefix)tracegen:${DOCKER_TAG} \
 		cmd/tracegen/
 	@echo "Finished building multiarch jaeger-tracegen =============="
 
@@ -422,7 +422,7 @@ docker-images-anonymizer-multiarch:
 	docker buildx build --push \
     	--progress=plain \
     	--platform=$(PLATFORMS) \
-    	--tag $(repo_multiarch_prefix)$$anonymizer:${DOCKER_TAG} \
+    	--tag $(repo_multiarch_prefix)anonymizer:${DOCKER_TAG} \
 		cmd/anonymizer/
 	@echo "Finished building multiarch jaeger-anonymizer =============="
 
