@@ -363,7 +363,7 @@ create-baseimage-multiarch:
 	echo "Finished building multiarch base image =============="
 
 .PHONY: docker-images-jaeger-backend-multiarch
-docker-images-jaeger-backend-multiarch: create-baseimg-multiarch
+docker-images-jaeger-backend-multiarch: create-baseimage-multiarch
 	for component in agent collector query ingester ; do \
 		docker buildx build --push \
     		--progress=plain --target release \
