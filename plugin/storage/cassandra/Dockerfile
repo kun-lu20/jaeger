@@ -1,4 +1,4 @@
-ARG TARGETARCH
+ARG TARGETARCH=amd64
 
 FROM cassandra:3.11 AS base_amd64
 
