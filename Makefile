@@ -381,9 +381,9 @@ docker-images-cassandra-multiarch:
 	docker buildx build --push \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
-		-tag $(DOCKER_NAMESPACE)/jaeger-cassandra-schema:${DOCKER_TAG} \
+		--tag $(DOCKER_NAMESPACE)/jaeger-cassandra-schema:${DOCKER_TAG} \
 		plugin/storage/cassandra/
-	@echo "Finished building jaeger-cassandra-schema =============="
+	echo "Finished building jaeger-cassandra-schema =============="
 
 .PHONY: docker-push
 docker-push:
