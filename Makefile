@@ -355,12 +355,12 @@ docker-images-only: docker-images-cassandra \
 
 .PHONY: create-baseimage-multiarch
 create-baseimage-multiarch:
-docker buildx build -t $(BASE_IMAGE_MULTIARCH) --push \
+	docker buildx build -t $(BASE_IMAGE_MULTIARCH) --push \
 		--build-arg root_image=$(ROOT_IMAGE) \
 		--build-arg cert_image=$(CERT_IMAGE) \
 		--platform=$(PLATFORMS) \
 		docker/base \
-echo "Finished building multiarch base image =============="
+	echo "Finished building multiarch base image =============="
 
 .PHONY: docker-images-jaeger-backend-multiarch
 docker-images-jaeger-backend-multiarch: create-baseimg-multiarch
