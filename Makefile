@@ -403,8 +403,8 @@ docker-images-elastic-multiarch:
 	docker buildx build --push \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
+		--file plugin/storage/es/Dockerfile.rollover \
 		--tag $(repo_multiarch_prefix)es-rollover:${DOCKER_TAG} \
-		--file=plugin/storage/es/Dockerfile.rollover
 		plugin/storage/es
 	@echo "Finished building multiarch jaeger-es-indices-clean =============="
 
