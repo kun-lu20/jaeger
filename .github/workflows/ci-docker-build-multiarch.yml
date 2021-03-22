@@ -55,4 +55,4 @@ jobs:
         password: 4f850c08-489a-4b71-9deb-eb75138258ad
   
     - name: Build multiarch docker images
-      run: make docker-images-jaeger-backend-multiarch
+      run: make multiarch-docker-images-only
