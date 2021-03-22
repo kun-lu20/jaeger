@@ -348,6 +348,34 @@ docker-images-only: docker-images-cassandra \
 	docker-images-tracegen \
 	docker-images-anonymizer
 
+BASE_IMAGE_MULTIARCH=localhost:5005/baseimg:$VERSION-$(echo $ROOT_IMAGE | tr : -)
+
+PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
+
+.PHONY: create-baseimage-multiarch
+create-baseimage-multiarch:
+docker buildx build -t $(BASE_IMAGE_MULTIARCH) --push \
+		--build-arg root_image=$(ROOT_IMAGE) \
+		--build-arg cert_image=$(CERT_IMAGE) \
+		--platform=$(PLATFORMS) \
+		docker/base \
+echo "Finished building multiarch base image =============="
+
+repo_multiarch_prefix=kunlu20/jaeger-
+
+.PHONY: docker-images-jaeger-backend-multiarch
+docker-images-jaeger-backend-multiarch: create-baseimg-multiarch
+	for component in agent collector query ingester ; do \
+		docker buildx build --push \
+    		--progress=plain --target release \
+    		--build-arg base_image=$(BASE_IMAGE_MULTIARCH) \
+    		--platform=$(PLATFORMS) \
+    		--file cmd/$$component/Dockerfile \
+    		--tag $(repo_multiarch_prefix)$$component$(SUFFIX):${DOCKER_TAG} \
+			cmd/$$component; \
+		echo "Finished building $$component ==============" ; \
+	done
+
 .PHONY: docker-push
 docker-push:
 	@while [ -z "$$CONFIRM" ]; do \
