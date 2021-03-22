@@ -73,7 +73,7 @@ MOCKERY=mockery
 .DEFAULT_GOAL := test-and-lint
 
 
-BASE_IMAGE_MULTIARCH := localhost:5005/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
+BASE_IMAGE_MULTIARCH := localhost:5000/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
 PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
 repo_multiarch_prefix=kunlu20/jaeger-
 
