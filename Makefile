@@ -348,7 +348,7 @@ docker-images-only: docker-images-cassandra \
 	docker-images-tracegen \
 	docker-images-anonymizer
 
-BASE_IMAGE_MULTIARCH=localhost:5005/baseimg:$(shell $(VERSION)-$(echo $(ROOT_IMAGE) | tr : -))
+BASE_IMAGE_MULTIARCH := localhost:5005/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
 
 PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
 
