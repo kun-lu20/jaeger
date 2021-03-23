@@ -389,6 +389,7 @@ docker-images-cassandra-multiarch:
 	docker buildx build --push \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
+		--file plugin/storage/cassandra/Dockerfile.multiarch \
 		--tag $(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
 		plugin/storage/cassandra/
 	echo "Finished building multiarch jaeger-cassandra-schema =============="
@@ -403,7 +404,7 @@ docker-images-elastic-multiarch:
 	docker buildx build --push \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
-		--file plugin/storage/es/Dockerfile.rollover \
+		--file plugin/storage/es/Dockerfile.rollover.multiarch \
 		--tag $(repo_multiarch_prefix)es-rollover:${DOCKER_TAG} \
 		plugin/storage/es
 	@echo "Finished building multiarch jaeger-es-indices-clean =============="
