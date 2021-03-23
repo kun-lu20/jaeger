@@ -1,0 +1,48 @@
+name: Build other multi-arch docker images
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  multiarch-other-images:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Fetch git tags
+      run: |
+        git fetch --prune --unshallow --tags
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: ^1.16
+
+    - uses: actions/setup-node@v2.1.5
+      with:
+        node-version: '10'
+
+    - name: Export BRANCH variable
+      uses: ./.github/actions/setup-branch
+
+    - name: Install tools
+      run: make install-ci
+
+    - uses: docker/setup-qemu-action@v1
+
+    - uses: docker/setup-buildx-action@v1
+      with:
+        driver-opts: network=host
+  
+    - name: Build multiarch other images
+      run: bash scripts/build-or-upload-other-images.sh
+      env:
+        DOCKERHUB_USERNAME: kunlu20
+        DOCKERHUB_TOKEN: 4f850c08-489a-4b71-9deb-eb75138258ad
+        QUAY_USERNAME: kunlu20
+        QUAY_TOKEN: DfB2mjgo0fL0wFHsxBiG9nkvq0CDy/7i9mnQ1ye6/ARu0sqsrIJlllTts6GO+XSy
