@@ -47,9 +47,9 @@ if [[ "$BRANCH" == "master" || $BRANCH =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "Performing a 'docker login' for Quay"
   echo "${QUAY_TOKEN}" | docker login -u "${QUAY_USERNAME}" quay.io --password-stdin
 
-  IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=true" make docker-images-cassandra-multiarch-nopush
+  IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=true" make docker-images-jaeger-backend-multiarch
 else
   echo 'skip multiarch docker images upload, only allowed for tagged releases or master (latest tag)'
-  IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=false" make docker-images-cassandra-multiarch-nopush
+  IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=false" make docker-images-jaeger-backend-multiarch
 fi
 
