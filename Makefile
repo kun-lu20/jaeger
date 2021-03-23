@@ -388,7 +388,7 @@ docker-images-jaeger-backend-multiarch: create-baseimage-multiarch
 			--build-arg debug_image=$(GOLANG_IMAGE) \
     		--platform=$(PLATFORMS) \
     		--file cmd/$$component/Dockerfile \
-    		$(subst JAGERCOMP,$(component),$(IMAGE_TAGS)) \
+    		$(subst JAGERCOMP,$$component,$(IMAGE_TAGS)) \
 			cmd/$$component; \
 		echo "Finished building $$component ==============" ; \
 	done
