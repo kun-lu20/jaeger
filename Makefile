@@ -429,7 +429,7 @@ docker-images-anonymizer-multiarch:
 
 .PHONY: docker-images-cassandra-multiarch-nopush
 docker-images-cassandra-multiarch-nopush:
-    CASSANDRA_TAG = ${IMAGE_TAGS//JAGERCOMP/cassandra-schema}
+    CASSANDRA_TAG=${IMAGE_TAGS//JAGERCOMP/cassandra-schema}
 	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
