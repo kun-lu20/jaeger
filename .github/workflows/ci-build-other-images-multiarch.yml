@@ -45,4 +45,4 @@ jobs:
         password: 4f850c08-489a-4b71-9deb-eb75138258ad
   
     - name: Build multiarch other images
-      run: PUSHTAG="type=image, push=true" make docker-images-cassandra-multiarch-nopush
+      run: bash scripts/build-or-upload-other-images.sh
