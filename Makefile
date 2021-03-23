@@ -429,7 +429,7 @@ docker-images-anonymizer-multiarch:
 
 .PHONY: docker-images-cassandra-multiarch-nopush
 docker-images-cassandra-multiarch-nopush:
-	docker buildx build --output "type=image, push=false" \
+	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
 		--file plugin/storage/cassandra/Dockerfile.multiarch \
