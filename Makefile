@@ -433,7 +433,8 @@ docker-images-cassandra-multiarch-nopush:
 		--progress=plain \
 		--platform=$(PLATFORMS) \
 		--file plugin/storage/cassandra/Dockerfile.multiarch \
-		--tag $(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
+		--tag docker.io/$(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
+		--tag quay.io/$(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
 		plugin/storage/cassandra/
 	echo "Finished building multiarch jaeger-cassandra-schema =============="
 
