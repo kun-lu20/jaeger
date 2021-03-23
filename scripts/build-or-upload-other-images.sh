@@ -50,6 +50,6 @@ if [[ "$BRANCH" == "master" || $BRANCH =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=true" make docker-images-cassandra-multiarch-nopush
 else
   echo 'skip multiarch docker images upload, only allowed for tagged releases or master (latest tag)'
-  IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=true" make docker-images-cassandra-multiarch-nopush
+  IMAGE_TAGS="${IMAGE_TAGS}" PUSHTAG="type=image, push=false" make docker-images-cassandra-multiarch-nopush
 fi
 
