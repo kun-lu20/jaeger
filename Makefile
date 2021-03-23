@@ -76,7 +76,7 @@ MOCKERY=mockery
 BASE_IMAGE_MULTIARCH := localhost:5000/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
 PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
 repo_multiarch_prefix=kunlu20/jaeger-
-CASSANDRA_TAG=$(SED) ''/JAGERCOMP/s/assandra-schema/$(IMAGE_TAGS)/''
+CASSANDRA_TAG=$(subst JAGERCOMP,assandra-schema,$(IMAGE_TAGS))
 
 .PHONY: test-and-lint
 test-and-lint: test fmt lint
