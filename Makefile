@@ -76,6 +76,7 @@ MOCKERY=mockery
 BASE_IMAGE_MULTIARCH := localhost:5000/baseimg:$(VERSION)-$(shell echo $(ROOT_IMAGE) | tr : -)
 PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
 repo_multiarch_prefix=kunlu20/jaeger-
+CASSANDRA_TAG=${IMAGE_TAGS//JAGERCOMP/cassandra-schema}
 
 .PHONY: test-and-lint
 test-and-lint: test fmt lint
@@ -429,7 +430,6 @@ docker-images-anonymizer-multiarch:
 
 .PHONY: docker-images-cassandra-multiarch-nopush
 docker-images-cassandra-multiarch-nopush:
-    CASSANDRA_TAG=${IMAGE_TAGS//JAGERCOMP/cassandra-schema}
 	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
