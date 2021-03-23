@@ -429,12 +429,12 @@ docker-images-anonymizer-multiarch:
 
 .PHONY: docker-images-cassandra-multiarch-nopush
 docker-images-cassandra-multiarch-nopush:
+    CASSANDRA_TAG = ${IMAGE_TAGS//JAGERCOMP/cassandra-schema}
 	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
 		--file plugin/storage/cassandra/Dockerfile.multiarch \
-		--tag docker.io/$(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
-		--tag quay.io/$(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
+		$(CASSANDRA_TAG) \
 		plugin/storage/cassandra/
 	echo "Finished building multiarch jaeger-cassandra-schema =============="
 

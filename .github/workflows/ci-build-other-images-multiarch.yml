@@ -38,18 +38,11 @@ jobs:
     - uses: docker/setup-buildx-action@v1
       with:
         driver-opts: network=host
-    
-    - uses: docker/login-action@v1 
-      with:
-        registry: docker.io
-        username: kunlu20
-        password: 4f850c08-489a-4b71-9deb-eb75138258ad
-    
-    - uses: docker/login-action@v1 
-      with:
-        registry: quay.io
-        username: kunlu20
-        password: DfB2mjgo0fL0wFHsxBiG9nkvq0CDy/7i9mnQ1ye6/ARu0sqsrIJlllTts6GO+XSy
   
     - name: Build multiarch other images
       run: bash scripts/build-or-upload-other-images.sh
+      env:
+        DOCKERHUB_USERNAME: kunlu20
+        DOCKERHUB_TOKEN: 4f850c08-489a-4b71-9deb-eb75138258ad
+        QUAY_USERNAME: kunlu20
+        QUAY_TOKEN: DfB2mjgo0fL0wFHsxBiG9nkvq0CDy/7i9mnQ1ye6/ARu0sqsrIJlllTts6GO+XSy
