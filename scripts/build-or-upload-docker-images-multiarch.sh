@@ -35,7 +35,7 @@ IMAGE_TAGS="${IMAGE_TAGS} --tag quay.io/${BUILD_IMAGE}"
 if [ "${MAJOR_MINOR}x" != "x" ]; then
     IMAGE_TAGS="${IMAGE_TAGS} --tag quay.io/${MAJOR_MINOR_IMAGE}"
 fi
-################################
+#################################
 
 # Only push images to dockerhub/quay.io for master branch or for release tags vM.N.P
 if [[ "$BRANCH" == "master" || $BRANCH =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
