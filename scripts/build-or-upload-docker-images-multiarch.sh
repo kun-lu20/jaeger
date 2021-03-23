@@ -38,7 +38,7 @@ fi
 #################################
 
 # Only push images to dockerhub/quay.io for master branch or for release tags vM.N.P
-if [[ "$BRANCH" == "master" || $BRANCH =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+if [[ "$BRANCH" == "master" || $BRANCH =~ ^vvvv[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "build multiarch images and upload to dockerhub/quay.io, BRANCH=$BRANCH"
 
   echo "Performing a 'docker login' for DockerHub"
