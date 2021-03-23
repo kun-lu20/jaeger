@@ -77,6 +77,14 @@ BASE_IMAGE_MULTIARCH := localhost:5000/baseimg:$(VERSION)-$(shell echo $(ROOT_IM
 PLATFORMS=linux/amd64,linux/arm64,linux/s390x,linux/ppc64le
 repo_multiarch_prefix=kunlu20/jaeger-
 CASSANDRA_TAG=$(subst JAGERCOMP,cassandra-schema,$(IMAGE_TAGS))
+INGESTER_TAG=$(subst JAGERCOMP,ingester,$(IMAGE_TAGS))
+AGENT_TAG=$(subst JAGERCOMP,agent,$(IMAGE_TAGS))
+COLLECTOR_TAG=$(subst JAGERCOMP,collector,$(IMAGE_TAGS))
+QUERY_TAG=$(subst JAGERCOMP,query,$(IMAGE_TAGS))
+ESINDEX_TAG=$(subst JAGERCOMP,es-index-cleaner,$(IMAGE_TAGS))
+ESROLLOVER_TAG=$(subst JAGERCOMP,es-rollover,$(IMAGE_TAGS))
+TRACEGEN_TAG=$(subst JAGERCOMP,tracegen,$(IMAGE_TAGS))
+ANONYMIZER_TAG=$(subst JAGERCOMP,anonymizer,$(IMAGE_TAGS))
 
 .PHONY: test-and-lint
 test-and-lint: test fmt lint
@@ -374,57 +382,57 @@ create-baseimage-multiarch:
 .PHONY: docker-images-jaeger-backend-multiarch
 docker-images-jaeger-backend-multiarch: create-baseimage-multiarch
 	for component in agent collector query ingester ; do \
-		docker buildx build --push \
+		docker buildx build --output "$(PUSHTAG)" \
     		--progress=plain --target release \
     		--build-arg base_image=$(BASE_IMAGE_MULTIARCH) \
 			--build-arg debug_image=$(GOLANG_IMAGE) \
     		--platform=$(PLATFORMS) \
     		--file cmd/$$component/Dockerfile \
-    		--tag $(repo_multiarch_prefix)$$component$(SUFFIX):${DOCKER_TAG} \
+    		$(subst JAGERCOMP,$$component,$(IMAGE_TAGS)) \
 			cmd/$$component; \
 		echo "Finished building $$component ==============" ; \
 	done
 
 .PHONY: docker-images-cassandra-multiarch
 docker-images-cassandra-multiarch:
-	docker buildx build --push \
+	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
 		--file plugin/storage/cassandra/Dockerfile.multiarch \
-		--tag $(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
+		${CASSANDRA_TAG} \
 		plugin/storage/cassandra/
 	echo "Finished building multiarch jaeger-cassandra-schema =============="
 
 .PHONY: docker-images-elastic-multiarch
 docker-images-elastic-multiarch:
-	docker buildx build --push \
+	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
-		--tag $(repo_multiarch_prefix)es-index-cleaner:${DOCKER_TAG} \
+		${ESINDEX_TAG} \
 		plugin/storage/es
-	docker buildx build --push \
+	docker buildx build --output "$(PUSHTAG)" \
 		--progress=plain \
 		--platform=$(PLATFORMS) \
 		--file plugin/storage/es/Dockerfile.rollover.multiarch \
-		--tag $(repo_multiarch_prefix)es-rollover:${DOCKER_TAG} \
+		${ESROLLOVER_TAG} \
 		plugin/storage/es
 	@echo "Finished building multiarch jaeger-es-indices-clean =============="
 
 .PHONY: docker-images-tracegen-multiarch
 docker-images-tracegen-multiarch:
-	docker buildx build --push \
+	docker buildx build --output "$(PUSHTAG)" \
     	--progress=plain \
     	--platform=$(PLATFORMS) \
-    	--tag $(repo_multiarch_prefix)tracegen:${DOCKER_TAG} \
+    	${TRACEGEN_TAG} \
 		cmd/tracegen/
 	@echo "Finished building multiarch jaeger-tracegen =============="
 
 .PHONY: docker-images-anonymizer-multiarch
 docker-images-anonymizer-multiarch:
-	docker buildx build --push \
+	docker buildx build --output "$(PUSHTAG)" \
     	--progress=plain \
     	--platform=$(PLATFORMS) \
-    	--tag $(repo_multiarch_prefix)anonymizer:${DOCKER_TAG} \
+    	$(ANONYMIZER_TAG) \
 		cmd/anonymizer/
 	@echo "Finished building multiarch jaeger-anonymizer =============="
 
