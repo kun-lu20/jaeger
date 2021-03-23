@@ -17,6 +17,7 @@ if [[ $BRANCH == v* ]]; then
     MAJOR_MINOR=$(echo ${COMPONENT_VERSION} | awk -F. '{print $1"."$2}')
 else
     COMPONENT_VERSION="latest"
+    MAJOR_MINOR=""
 fi
 
 # for docker.io
