@@ -32,7 +32,7 @@ fi
 ## for quay.io
 IMAGE_TAGS="${IMAGE_TAGS} --tag quay.io/${BUILD_IMAGE}"
 
-if [ "${MAJOR_MINOR_IMAGE}x" != "x" ]; then
+if [ "${MAJOR_MINOR}x" != "x" ]; then
     IMAGE_TAGS="${IMAGE_TAGS} --tag quay.io/${MAJOR_MINOR_IMAGE}"
 fi
 ################################
