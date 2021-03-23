@@ -427,6 +427,16 @@ docker-images-anonymizer-multiarch:
 		cmd/anonymizer/
 	@echo "Finished building multiarch jaeger-anonymizer =============="
 
+.PHONY: docker-images-cassandra-multiarch-nopush
+docker-images-cassandra-multiarch-nopush:
+	docker buildx build --output "type=image, push=false" \
+		--progress=plain \
+		--platform=$(PLATFORMS) \
+		--file plugin/storage/cassandra/Dockerfile.multiarch \
+		--tag $(repo_multiarch_prefix)cassandra-schema:${DOCKER_TAG} \
+		plugin/storage/cassandra/
+	echo "Finished building multiarch jaeger-cassandra-schema =============="
+
 .PHONY: docker-push
 docker-push:
 	@while [ -z "$$CONFIRM" ]; do \
