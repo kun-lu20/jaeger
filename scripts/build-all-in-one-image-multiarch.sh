@@ -7,7 +7,7 @@ ROOT_IMAGE="alpine:3.12"
 CERT_IMAGE="alpine:3.12"
 GOLANG_IMAGE="golang:1.15-alpine"
 
-BASE_IMAGE="localhost:5000/baseimg:$VERSION-$(echo $ROOT_IMAGE | tr : -)"
+BASE_IMAGE="localhost/baseimg:$VERSION-$(echo $ROOT_IMAGE | tr : -)"
 
 PLATFORMS="linux/amd64,linux/arm64,linux/s390x,linux/ppc64le"
 
