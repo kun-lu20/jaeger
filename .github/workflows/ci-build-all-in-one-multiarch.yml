@@ -14,12 +14,8 @@ jobs:
         platform:
         - name: amd64
           task: GOOS=linux GOARCH=amd64 $(MAKE) build-all-in-one
-        - name: arm64
-          task: GOOS=linux GOARCH=arm64 $(MAKE) build-all-in-one
         - name: s390x
           task: GOOS=linux GOARCH=s390x $(MAKE) build-all-in-one
-        - name: powerpc
-          task: GOOS=linux GOARCH=ppc64le $(MAKE) build-all-in-one
     name: build all-in-one for ${{ matrix.platform.name }}
     steps:
     - uses: actions/checkout@v2
@@ -67,8 +63,6 @@ jobs:
     - uses: docker/setup-qemu-action@v1
 
     - uses: docker/setup-buildx-action@v1
-      with:
-        driver-opts: network=host
     
     - uses: actions/download-artifact@v2
       with:
