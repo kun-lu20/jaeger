@@ -12,12 +12,10 @@ jobs:
     strategy:
       matrix:
         platform:
-        - name: linux
+        - name: amd64
           task: GOOS=linux GOARCH=amd64 $(MAKE) build-all-in-one
-        - name: system/390
+        - name: s390x
           task: GOOS=linux GOARCH=s390x $(MAKE) build-all-in-one
-        - name: arm
-          task: GOOS=linux GOARCH=arm64 $(MAKE) build-all-in-one
     name: build all-in-one for ${{ matrix.platform.name }}
     steps:
     - uses: actions/checkout@v2
@@ -40,3 +38,41 @@ jobs:
 
     - name: Build All-in-one
       run: make ${{ matrix.platform.task }}
+    
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: all-in-one-linux
+        path: ./cmd/all-in-one/all-in-one-linux-*
+        
+
+  build-docker-image:
+    needs: build-binaries
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.4
+      with:
+        submodules: true
+
+    - name: Fetch git tags
+      run: |
+        git fetch --prune --unshallow --tags
+    
+    - name: Export BRANCH variable
+      uses: ./.github/actions/setup-branch
+
+    - uses: docker/setup-qemu-action@v1
+
+    - uses: docker/setup-buildx-action@v1
+    
+    - uses: actions/download-artifact@v2
+      with:
+        name: all-in-one-linux
+        path: ./cmd/all-in-one/
+    
+    - name: "build and upload the all-in-one image"
+      run: bash scripts/build-all-in-one-image-multiarch.sh
+      env:
+        DOCKERHUB_USERNAME: kunlu20
+        DOCKERHUB_TOKEN: 4f850c08-489a-4b71-9deb-eb75138258ad
+        QUAY_USERNAME: kunlu20
+        QUAY_TOKEN: DfB2mjgo0fL0wFHsxBiG9nkvq0CDy/7i9mnQ1ye6/ARu0sqsrIJlllTts6GO+XSy
