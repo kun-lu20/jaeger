@@ -25,7 +25,7 @@ compute_image_tag() {
   if [[ "${branch}" == "master" ]]; then
     local tag="latest"
     echo ${tag}
-  elif [[ "${branch}" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+  elif [[ "${branch}" =~ ^vvvvvvv([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
     local major="${BASH_REMATCH[1]}"
     local minor="${BASH_REMATCH[2]}"
     local patch="${BASH_REMATCH[3]}"
