@@ -1,4 +1,4 @@
-name: Build multi-arch all-in-one
+name: Build and upload multi-arch docker images
 
 on:
   push:
@@ -6,14 +6,16 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:   
-  all-in-one:
+jobs:
+  multiarch-docker-images:
     runs-on: ubuntu-latest
+    
     services:
       registry:
         image: registry:2
         ports:
           - 5000:5000
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -37,14 +39,18 @@ jobs:
     - name: Install tools
       run: make install-ci
     
+    - name: Build binaries
+      id: build-binaries
+      run: make build-all-platforms
+
     - uses: docker/setup-qemu-action@v1
 
     - uses: docker/setup-buildx-action@v1
       with:
         driver-opts: network=host
-
-    - name: Build, test, and publish all-in-one image
-      run: bash scripts/build-all-in-one-image-multiarch.sh
+  
+    - name: Build and upload multiarch docker images
+      run: bash scripts/build-or-upload-docker-images-multiarch.sh
       env:
         DOCKERHUB_USERNAME: kunlu20
         DOCKERHUB_TOKEN: 4f850c08-489a-4b71-9deb-eb75138258ad
