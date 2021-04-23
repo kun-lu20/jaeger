@@ -36,7 +36,7 @@ run_integration_test() {
 
 upload_to_docker() {
   # Only push the docker image to dockerhub/quay.io for master/release branch
-  if [[ "$BRANCH" == "master" || $BRANCH =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  if [[ "$BRANCH" == "master" || $BRANCH =~ ^vp[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "upload $1 to dockerhub/quay.io"
     REPO=$1
     bash scripts/upload-to-registry.sh $REPO
@@ -47,7 +47,7 @@ upload_to_docker() {
 
 upload_multiarch_to_docker() {
   # Only push the docker image to dockerhub/quay.io for master/release branch
-  if [[ "$BRANCH" == "master" || $BRANCH =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  if [[ "$BRANCH" == "master" || $BRANCH =~ ^vp[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "upload $1 to dockerhub/quay.io"
     REPO=$1
     build_upload_multiarch_to_docker $REPO
