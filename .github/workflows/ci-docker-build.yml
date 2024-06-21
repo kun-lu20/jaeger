@@ -33,10 +33,7 @@ jobs:
       run: make install-ci
 
     - name: Build docker images
+      env: 
+        GOARCH: s390x
       run: make docker
 
-    - name: Upload docker images
-      run: bash scripts/upload-all-docker-images.sh
-      env:
-        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
